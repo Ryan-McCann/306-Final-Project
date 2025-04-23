@@ -1,0 +1,7 @@
+.navbar-color {
+    background-color: orange;
+}
+
+#messageList {
+    padding-bottom: 5rem; /* adjust based on form height */
+}
