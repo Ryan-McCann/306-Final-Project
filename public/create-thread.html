@@ -10,7 +10,7 @@
     <body>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
         <script src="/scripts/page.js"></script>
-        <script src="/scripts/boardpage.js"></script>
+        <script src="/scripts/createthreadpage.js"></script>
         <nav class="navbar navbar-color navbar-expand-lg shadow">
             <div class="container-fluid">
                 <a class="navbar-brand" href="/index.html">Chatpost</a>
@@ -60,7 +60,7 @@
                     <h4 class="mb-0">Create a New Thread</h4>
                 </div>
                 <div class="card-body">
-                    <form id="createThreadForm" action="/create-thread/test" method="post">
+                    <form id="createThreadForm" action="/create-thread/" method="post">
                     <div class="mb-3">
                         <label for="thread_title" class="form-label fw-bold">Thread Title</label>
                         <input type="text" class="form-control" id="thread_title" name="thread_title" required>

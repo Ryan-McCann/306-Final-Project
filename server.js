@@ -173,8 +173,6 @@ app.get('/threads/:name', (req, res) => {
             return res.status(500).json( {error: 'Database query failed'});
         }
         
-        console.log(results);
-        
         res.json(results);
     });
 });
@@ -265,6 +263,8 @@ app.post('/create-thread/:name', (req, res) => {
     let creation_date = new Date().toISOString().slice(0, 19).replace('T', ' ');
     const post_content = req.body.post_content;
     
+    console.log("Board name: "+board_name);
+    
     const sql1 = `
     INSERT INTO thread (board_id, title, creator_id, creation_date)
     SELECT b.id, ?, ?, ?
@@ -297,7 +297,7 @@ app.post('/create-thread/:name', (req, res) => {
                     return res.status(500).send('Failed to create post');
                 });
             } else {
-                res.redirect(`/thread/${thread_id}`);
+                res.redirect(`/board/${board_name}/thread/${thread_id}`);
             }
         });
     });
@@ -330,8 +330,64 @@ app.post('/message', (req, res) => {
                 console.error('Database error:', err);
                 return res.status(500).json( {error: 'Database query failed'});
             }
+            res.end();
         });
     }
+});
+
+app.post('/post', (req, res) => {
+    if(req.session.username && req.session.user_id) {
+        let contents = req.body.contents;
+        let user_id = req.session.user_id;
+        let date = new Date().toISOString().slice(0, 19).replace('T', ' ');
+        let thread_id = req.body.thread_id;
+        
+        const sql = 'INSERT INTO post (user_id, thread_id, contents, creation_date) VALUES (?, ?, ?, ?)';
+        db.query(sql, [user_id, thread_id, contents, date], (err, results) => {
+            if(err) {
+                console.error('Database error:', err);
+                return res.status(500).json({error: 'Database query failed'});
+            }
+            
+            res.end();
+        });
+    }
+});
+
+app.get('/posts/:tid', (req, res) => {
+    const sql = `
+        SELECT 
+            post.id, 
+            post.user_id, 
+            post.contents, 
+            post.creation_date, 
+            post.modified_date, 
+            user.username,
+            user.profile_photo
+        FROM post
+        JOIN user on user.id = post.user_id
+        WHERE post.thread_id = ?`;
+    
+    db.query(sql, [req.params.tid], (err, results) => {
+        if(err) {
+            console.error('Database error:', err);
+            return res.status(500).json({error: 'Database query failed'});
+        }
+        
+        res.json(results);
+    });
+});
+
+app.get('/getthreadtitle/:tid', (req, res) => {
+    const sql = 'SELECT title FROM thread WHERE id = ?';
+    db.query(sql, [req.params.tid], (err, results) => {
+        if(err) {
+            console.error('Database error:', err);
+            return res.status(500).json({error: 'Database query failed'});
+        }
+        
+        res.json(results);
+    });
 });
 
 // Catch-all for unknown routes

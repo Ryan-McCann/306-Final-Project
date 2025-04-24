@@ -52,6 +52,9 @@ function loadThreads() {
 
 document.addEventListener("DOMContentLoaded", () => {
     let boardNameSpan = document.getElementById("boardNameSpan");
-    boardNameSpan.innerText = boardName;
+    let createThreadButton = document.getElementById("createThreadButton");
+    createThreadButton.href += "/"+boardName;
+    
+    boardNameSpan.innerText = boardName.replace("%20", " ");
     loadThreads();
 });

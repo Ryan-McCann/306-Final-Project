@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
     var userID = -1;
     
-    roomNameSpan.innerText = roomName;
+    roomNameSpan.innerText = roomName.replace("%20", " ");
     
     fetch('/loggedin')
     .then(res => res.json())
@@ -90,9 +90,11 @@ document.addEventListener("DOMContentLoaded", () => {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: new URLSearchParams({ msg_txt, room_name })
+        })
+        .then(res =>{
+            input.value = '';
+            location.reload();
         });
-
-        input.value = ''; // clear input
     });
 
 });
