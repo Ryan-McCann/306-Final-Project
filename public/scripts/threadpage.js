@@ -8,7 +8,7 @@ function loadPosts() {
     .then(res_posts => {
         let now = new Date();
         
-        res_posts.forEach(post => {
+        res_posts.forEach((post, index) => {
             let date = new Date(post.creation_date.replace(' ', 'T')+'Z');
             let isToday = 
                 date.getFullYear() === now.getFullYear() &&
@@ -28,17 +28,29 @@ function loadPosts() {
                 hour12: true
             });
             
-            postList.innerHTML +=
-                `
-                <li class="list-group-item">
-                    <div>
-                        Posted by: ${post.username} on: ${formatted}
+            const bgClass = index % 2 === 0 ? 'bg-white' : 'bg-light';
+            
+            const card = document.createElement('div');
+            card.className = `card shadow-sm ${bgClass}`;
+
+            card.innerHTML = `
+                <div class="card-body">
+                    <div class="d-flex">
+                        <a href="/profile/${post.username}"><img src="/images/${post.profile_photo}" class="rounded me-3" style="width: 50px; height: 50px; object-fit: cover;"></a>
+                        <div class="w-100">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <a href="/profile/${post.username}" class="fw-semibold text-primary text-decoration-none">${post.username}</a>
+                                <small class="text-muted">${formatted}</small>
+                            </div>
+                            <div class="ps-2 border-start border-2">
+                                ${post.contents}
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        ${post.contents}
-                    </div>
-                </li>
-                `;
+                </div>
+            `;
+
+            postList.appendChild(card);
         });
     });
 }
@@ -47,9 +59,9 @@ document.addEventListener("DOMContentLoaded", () => {
     fetch('/getthreadtitle/'+threadId)
     .then(response => response.json())
     .then(res_thread => {
-        console.log(res_thread);
         let threadTitleSpan = document.getElementById("threadTitleSpan");
         threadTitleSpan.innerText = res_thread[0].title;
+        document.title = `${res_thread[0].title} | Chatpost`;
     });
     
     loadPosts();
@@ -60,8 +72,6 @@ document.addEventListener("DOMContentLoaded", () => {
         e.preventDefault();
         let contents = document.getElementById("post_txt").value;
         
-        console.log(threadId);
-        
         await fetch('/post', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -71,5 +81,17 @@ document.addEventListener("DOMContentLoaded", () => {
             location.reload();
         });
         
+    });
+    
+    fetch('/loggedin')
+    .then(res => res.json())
+    .then(data => {
+        let postForm = document.getElementById("postForm");
+        
+        if(data.loggedIn) {
+            postForm.hidden = false;
+        } else {
+            postForm.hidden = true;
+        }
     });
 });

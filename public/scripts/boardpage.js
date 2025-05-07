@@ -41,7 +41,7 @@ function loadThreads() {
                         <div class="col"><a href="/board/${boardName}/thread/${thread.thread_id}">${thread.title}</a></div>
                         <div class="col">${thread.post_count}</div>
                         <div class="col">${formatted}</div>
-                        <div class="col">${thread.last_user}</div>
+                        <div class="col"><a class="" href="/profile/${thread.last_user}">${thread.last_user}</a></div>
                      </div>
                 </li>
                 `;
@@ -56,5 +56,18 @@ document.addEventListener("DOMContentLoaded", () => {
     createThreadButton.href += "/"+boardName;
     
     boardNameSpan.innerText = boardName.replace("%20", " ");
+    document.title = `${boardName.replace("%20", " ")} | Chatpost`;
     loadThreads();
+    
+    fetch('/loggedin')
+    .then(res => res.json())
+    .then(data => {
+        let createThreadButton = document.getElementById("createThreadButton");
+        
+        if(data.loggedIn) {
+            createThreadButton.hidden = false;
+        } else {
+            createThreadButton.hidden = true;
+        }
+    });
 });

@@ -20,6 +20,20 @@ document.addEventListener("DOMContentLoaded", () => {
         
         if(data.loggedIn) {
             createBoardForm.hidden = false;
+                        
+            document.getElementById("create-board-form").addEventListener('submit', async (e) => {
+                e.preventDefault();
+                let name = document.getElementById("name").value;
+
+                await fetch('/createboard', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: new URLSearchParams({ name: name})
+                })
+                .then(res =>{
+                    location.reload();
+                });
+            });
         } else {
             createBoardForm.hidden = true;
         }
@@ -40,6 +54,11 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
             for(const board of boards) {
                 board.postCount = Number.parseInt(Math.random() * 5000 + 1);
+                
+                let username = (board.lastPostName === 'N/A') ? 'N/A' : `
+                    <a href="/profile/${board.lastPostName}">${board.lastPostName}</a>
+                `;
+                
                 let li = document.createElement("li");
                 li.className = "list-group-item";
                 li.innerHTML = 
@@ -47,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <div class="col"><a href="/board/${board.name}">${board.name}</a></div>
                     <div class="col">${board.threadCount}</div>
                     <div class="col">${board.lastPosted}</div>
-                    <div class="col">${board.lastPostName}</div>
+                    <div class="col">${username}</div>
                  </div>`;
                 boardsList.append(li);
             }

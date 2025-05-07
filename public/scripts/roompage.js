@@ -11,7 +11,7 @@ function loadMessages(userID) {
         
         res_msgs.forEach(msg => {
             let justify = (userID === msg.user_id) ? "justify-content-end" : "justify-content-start";
-            let says = (userID === msg.user_id) ? "You say:" : msg.username+" says:";
+            let says = (userID === msg.user_id) ? "You say:" : ` <a href="/profile/${msg.username}" class="text-decoration-none">${msg.username}</a> says`;
             
             let date = new Date(msg.date.replace(' ', 'T')+'Z');
             
@@ -33,18 +33,20 @@ function loadMessages(userID) {
                 hour12: true
             });
             
-            messageList.innerHTML +=
-            `
-            <li class="list-group-item">
-                <div class="d-flex ${justify}">
-                    <div class="bg-light border rounded p-2 px-3 text-dark">
-                        <div>${says}</div>
-                        <div>${msg.content}</div>
-                        <div>at ${formatted}</div>
-                    </div>
+            let li = document.createElement("li");
+            li.className = "list-group-item";
+            li.innerHTML = `
+            <div class="d-flex ${justify}">
+                <a href="/profile/${msg.username}"><img src="/images/${msg.profile_photo}" class="rounded-circle me-2" width="40" height="40" alt="${msg.username}"></a>
+                <div class="bg-light border rounded p-2 px-3 text-dark">
+                    <div>${says}</div>
+                    <div>${msg.content}</div>
+                    <div>at ${formatted}</div>
                 </div>
-            </li>
+            </div>
             `;
+            
+            messageList.appendChild(li);
         });
         
         messageList.scrollTop = messageList.scrollHeight;
@@ -58,6 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
     var userID = -1;
     
     roomNameSpan.innerText = roomName.replace("%20", " ");
+    document.title = `${roomName.replace("%20", " ")} | Chatpost`;
     
     fetch('/loggedin')
     .then(res => res.json())
@@ -71,8 +74,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         
         userID = data.user_id;
-        
-        console.log(userID);
         
         loadMessages(userID);
     });

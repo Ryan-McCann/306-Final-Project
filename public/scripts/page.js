@@ -23,3 +23,17 @@ document.addEventListener("DOMContentLoaded", () => {
           });
     });
 });
+
+let prevScrollPos = window.pageYOffset;
+
+window.addEventListener('scroll', () => {
+    const navbar = document.querySelector('.navbar');
+    const currentScrollPos = window.pageYOffset;
+    
+    if(prevScrollPos > currentScrollPos)
+        navbar.classList.remove('navbar-hidden');
+    else
+        navbar.classList.add('navbar-hidden');
+    
+    prevScrollPos = currentScrollPos;
+});

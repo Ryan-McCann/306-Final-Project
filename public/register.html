@@ -10,41 +10,41 @@
     <body>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
         <script src="/scripts/page.js"></script>
-        <nav class="navbar navbar-color navbar-expand-lg shadow">
+        <nav class="navbar navbar-color navbar-expand-lg">
             <div class="container-fluid">
-                <a class="navbar-brand" href="/index.html">Chatpost</a>
+                <a class="navbar-brand" href="/">Chatpost</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mb-2 me-5 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" href="/index.html">Home</a>
+                            <a class="nav-link" href="/">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/rooms.html">Rooms</a>
+                            <a class="nav-link" href="/rooms">Rooms</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/boards.html">Boards</a>
+                            <a class="nav-link" href="/boards">Boards</a>
                         </li>
                     </ul>
-                    <form action="search.html" method="get" class="d-flex mb-2 mb-lg-auto me-2 w-100" role="search">
+                    <form action="search" method="get" class="d-flex mb-2 mb-lg-auto me-2 w-100" role="search">
                         <input class="form-control me-1" type="search" placeholder="Search" aria-label="Search" name="q">
                         <button class="btn btn-outline-light" type="submit">Search</button>
                     </form>
                     <div class="dropdown" id="loggedin-dropdown">
                         <a class="d-flex align-items-center dropdown-toggle" href="#" data-bs-toggle="dropdown"><img src="/images/profile.png" style="height: 2em" class="align-middle me-2"></a>
                         <ul class="dropdown-menu dropdown-menu-lg-end dropdown-menu-sm-start">
-                            <li><a href="/profile.html" class="dropdown-item">Profile</a></li>
+                            <li><a href="/profile" class="dropdown-item">Profile</a></li>
                             <li><a href="#" class="dropdown-item" id="logoutLink">Logout</a></li>
                         </ul>
                     </div>
                     
                     <div class="dropdown" id="loggedout-dropdown" hidden>
                         <a class="d-flex align-items-center dropdown-toggle" href="#" data-bs-toggle="dropdown"><img src="/images/profile.png" style="height: 2em" class="align-middle me-2"></a>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a href="/login.html" id="loginLink" class="dropdown-item">Login</a></li>
-                            <li><a href="/register.html" class="dropdown-item">Register</a></li>
+                        <ul class="dropdown-menu dropdown-menu-lg-end dropdown-menu-sm-start">
+                            <li><a href="/login" id="loginLink" class="dropdown-item">Login</a></li>
+                            <li><a href="/register" class="dropdown-item">Register</a></li>
                         </ul>
                     </div>
                 </div>
